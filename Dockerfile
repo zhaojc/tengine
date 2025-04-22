@@ -81,6 +81,7 @@ RUN     addgroup -S nginx \
         && curl -L "https://github.com/openresty/headers-more-nginx-module/archive/v0.37.tar.gz" -o more.tar.gz \
         && tar -zxC /usr/src/tengine-$TENGINE_VERSION/modules -f more.tar.gz \
 	&& rm  more.tar.gz \
+    && luajit -v \
 	&& ls -l /usr/src/tengine-$TENGINE_VERSION/modules \
 	&& ./configure $CONFIG --with-debug \
         && make -j$(getconf _NPROCESSORS_ONLN) \
