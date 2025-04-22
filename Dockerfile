@@ -25,6 +25,7 @@ ENV CONFIG "\
         --user=nginx \
         --group=nginx \
         --with-http_ssl_module \
+        --with-http_lua_module \
         --with-http_realip_module \
         --with-http_addition_module \
         --with-http_sub_module \
@@ -71,6 +72,7 @@ RUN     addgroup -S nginx \
                 libxslt-dev \
                 gd-dev \
                 geoip-dev \
+                luajit \
         && curl -L "https://github.com/alibaba/tengine/archive/$TENGINE_VERSION.tar.gz" -o tengine.tar.gz \
         && mkdir -p /usr/src \
         && tar -zxC /usr/src -f tengine.tar.gz \
@@ -87,6 +89,7 @@ RUN     addgroup -S nginx \
         && mv objs/ngx_http_image_filter_module.so objs/ngx_http_image_filter_module-debug.so \
         && mv objs/ngx_http_geoip_module.so objs/ngx_http_geoip_module-debug.so \
         && mv objs/ngx_stream_geoip_module.so objs/ngx_stream_geoip_module-debug.so \
+        && mv objs/ngx_http_lua_module.so objs/ngx_http_lua_module.so \
         && ./configure $CONFIG \
         && make -j$(getconf _NPROCESSORS_ONLN) \
         && make install \
