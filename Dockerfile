@@ -74,9 +74,9 @@ RUN     addgroup -S nginx \
                 gd-dev \
                 geoip-dev \
                 luajit \
-        && wget -c http://luajit.org/download/LuaJIT-2.0.2.tar.gz \
-        && tar xzvf LuaJIT-2.0.2.tar.gz \
-        && cd LuaJIT-2.0.2 \
+        && wget -c https://github.com/LuaJIT/LuaJIT/archive/refs/tags/v2.0.2.tar.gz \
+        && tar xzvf v2.0.2.tar.gz \
+        && cd v2.0.2 \
         && make install PREFIX=/usr/local/luajit \
         && echo "/usr/local/luajit/lib" > /etc/ld.so.conf.d/usr_local_luajit_lib.conf \
         && ldconfig \
