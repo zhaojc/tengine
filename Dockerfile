@@ -54,8 +54,9 @@ ENV CONFIG "\
         --with-file-aio \
         --with-http_v2_module \
         --add-module=modules/ngx_http_upstream_check_module \
+        --add-module=modules/ngx_http_lua_module \
         --add-module=modules/headers-more-nginx-module-0.37 \
-	--add-module=modules/ngx_http_upstream_session_sticky_module \
+	    --add-module=modules/ngx_http_upstream_session_sticky_module \
         "
 RUN     addgroup -S nginx \
         && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
@@ -73,6 +74,14 @@ RUN     addgroup -S nginx \
                 gd-dev \
                 geoip-dev \
                 luajit \
+        && wget -c http://luajit.org/download/LuaJIT-2.0.2.tar.gz \
+        && tar xzvf LuaJIT-2.0.2.tar.gz \
+        && cd LuaJIT-2.0.2 \
+        && make install PREFIX=/usr/local/luajit \
+        && echo "/usr/local/luajit/lib" > /etc/ld.so.conf.d/usr_local_luajit_lib.conf \
+        && ldconfig \
+        && export LUAJIT_LIB=/usr/local/luajit/lib \
+        && export LUAJIT_INC=/usr/local/luajit/include/luajit-2.0 \
         && curl -L "https://github.com/alibaba/tengine/archive/$TENGINE_VERSION.tar.gz" -o tengine.tar.gz \
         && mkdir -p /usr/src \
         && tar -zxC /usr/src -f tengine.tar.gz \
